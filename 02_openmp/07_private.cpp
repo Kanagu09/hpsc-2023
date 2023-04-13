@@ -1,7 +1,7 @@
 #include <cstdio>
 
 int main() {
-  int a = 1, b = 1, c = 1;
+  int a = 5, b = 5, c = 5;
 #pragma omp parallel num_threads(4)
   {
 #pragma omp for private(a)
@@ -22,3 +22,19 @@ int main() {
   }
   printf("%d %d %d\n",a,b,c);
 }
+
+// private の種類について
+
+// private : 1 1 1 1 (last : 5)
+// copy in  : しない
+// copy out : しない
+
+// firstprivate : 6 6 6 6 (last : 5)
+// copy in  : する
+// copy out : しない
+
+// lastprivate : 1 1 1 1 (last : 1)
+// copy in  : しない
+// copy out : する
+
+// private の場合は未初期化値も出力された

@@ -4,6 +4,10 @@
 	g++ 01_num_threads.cpp -fopenmp
 02_loop: 02_loop.cpp
 	g++ 02_loop.cpp -fopenmp
+02_2_loop_ng: 02_2_loop_ng.cpp
+	g++ 02_2_loop_ng.cpp -fopenmp
+02_3_loop_ok: 02_3_loop_ok.cpp
+	g++ 02_3_loop_ok.cpp -fopenmp
 03_iterator: 03_iterator.cpp
 	g++ 03_iterator.cpp -fopenmp
 04_scope: 04_scope.cpp
