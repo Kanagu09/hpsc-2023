@@ -38,3 +38,5 @@ int main() {
 // copy out : する
 
 // private の場合は未初期化値も出力された
+
+// copy in も copy out もしたい場合は shared を使えば良い
