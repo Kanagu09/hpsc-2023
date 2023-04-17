@@ -12,16 +12,38 @@ int main() {
   }
   printf("\n");
 
-  std::vector<int> bucket(range,0); 
-  for (int i=0; i<n; i++)
+  // calc bucket num
+  std::vector<int> bucket(range,0);
+#pragma omp parallel for
+  for (int i=0; i<n; i++){
+#pragma omp atomic update
     bucket[key[i]]++;
+  }
+
+  // calc offset
   std::vector<int> offset(range,0);
-  for (int i=1; i<range; i++) 
-    offset[i] = offset[i-1] + bucket[i-1];
-  for (int i=0; i<range; i++) {
-    int j = offset[i];
-    for (; bucket[i]>0; bucket[i]--) {
-      key[j++] = i;
+  std::vector<int> buf(range,0);
+#pragma omp prallel for
+  for (int i=0; i<range-1; i++) {
+    offset[i+1] = bucket[i];
+  }
+#pragma omp parallel
+  for(int j=1; j<range; j<<=1) {
+#pragma omp for
+    for(int i=0; i<range; i++)
+      buf[i] = offset[i];
+#pragma omp for
+    for(int i=j; i<range; i++)
+      offset[i] += buf[i-j];
+  }
+
+  // sort
+#pragma omp parallel for
+  for(int i=0; i<n; i++){
+#pragma omp parallel for
+    for(int j=0; j<range; j++){
+      if(offset[j] <= i)
+        key[i] = j;
     }
   }
 
