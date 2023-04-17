@@ -13,18 +13,24 @@ int main(int argc, char** argv) {
   int begin = rank * (N / size);
   int end = (rank + 1) * (N / size);
   srand48(rank);
+  
+  // init
   for(int i=begin; i<end; i++) {
     x0[i] = drand48();
     y0[i] = drand48();
     m0[i] = drand48();
     fx0[i] = fy0[i] = 0;
   }
+
+  // allgather
   double x[N], y[N], m[N], fx[N], fy[N];
   MPI_Allgather( &x0[begin], end-begin, MPI_DOUBLE,  x, end-begin, MPI_DOUBLE, MPI_COMM_WORLD);
   MPI_Allgather( &y0[begin], end-begin, MPI_DOUBLE,  y, end-begin, MPI_DOUBLE, MPI_COMM_WORLD);
   MPI_Allgather( &m0[begin], end-begin, MPI_DOUBLE,  m, end-begin, MPI_DOUBLE, MPI_COMM_WORLD);
   MPI_Allgather(&fx0[begin], end-begin, MPI_DOUBLE, fx, end-begin, MPI_DOUBLE, MPI_COMM_WORLD);
   MPI_Allgather(&fy0[begin], end-begin, MPI_DOUBLE, fy, end-begin, MPI_DOUBLE, MPI_COMM_WORLD);
+  
+  // calc
   for(int i=0; i<N; i++) {
     for(int j=0; j<N; j++) {
       if(i != j) {
@@ -39,3 +45,5 @@ int main(int argc, char** argv) {
   }
   MPI_Finalize();
 }
+
+// allgather = gather + broadcast

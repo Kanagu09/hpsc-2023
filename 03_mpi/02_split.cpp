@@ -13,6 +13,8 @@ int main(int argc, char** argv) {
   int end = (rank + 1) * (N / size);
   printf("%d %d %d\n",rank,begin,end);
   srand48(rank);
+
+  // init
   for(int i=begin; i<end; i++) {
     x[i] = drand48();
     y[i] = drand48();
@@ -21,3 +23,6 @@ int main(int argc, char** argv) {
   }
   MPI_Finalize();
 }
+
+// 素朴な並列化方法
+// 配列の分担を明示的に指定

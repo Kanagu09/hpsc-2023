@@ -6,6 +6,8 @@ int main() {
   const int N = 20;
   //const int np = 4;
   double x[N], y[N], m[N], fx[N], fy[N];
+
+  // init
   for(int i=0; i<N; i++) {
     //if(i % (N / np) == 0) srand48(i / (N / np));
     x[i] = drand48();
@@ -13,6 +15,8 @@ int main() {
     m[i] = drand48();
     fx[i] = fy[i] = 0;
   }
+
+  // calc
   for(int i=0; i<N; i++) {
     for(int j=0; j<N; j++) {
       if(i != j) {
@@ -26,3 +30,5 @@ int main() {
     printf("%d %g %g\n",i,fx[i],fy[i]);
   }
 }
+
+// 物体を N 個作り，物体間の重力を計算

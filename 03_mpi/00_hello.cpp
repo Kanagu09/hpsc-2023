@@ -9,3 +9,5 @@ int main(int argc, char** argv) {
   printf("rank: %d/%d\n",rank,size);
   MPI_Finalize();
 }
+
+// MPIでは process を rank と呼ぶ

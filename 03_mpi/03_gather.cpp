@@ -13,18 +13,24 @@ int main(int argc, char** argv) {
   int begin = rank * (N / size);
   int end = (rank + 1) * (N / size);
   srand48(rank);
+  
+  // init
   for(int i=begin; i<end; i++) {
     x0[i] = drand48();
     y0[i] = drand48();
     m0[i] = drand48();
     fx0[i] = fy0[i] = 0;
   }
+
+  // gather
   double x[N], y[N], m[N], fx[N], fy[N];
   MPI_Gather( &x0[begin], end-begin, MPI_DOUBLE,  x, end-begin, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   MPI_Gather( &y0[begin], end-begin, MPI_DOUBLE,  y, end-begin, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   MPI_Gather( &m0[begin], end-begin, MPI_DOUBLE,  m, end-begin, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   MPI_Gather(&fx0[begin], end-begin, MPI_DOUBLE, fx, end-begin, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   MPI_Gather(&fy0[begin], end-begin, MPI_DOUBLE, fy, end-begin, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+ 
+  // calc
   if(rank == 0) {
     for(int i=0; i<N; i++) {
       for(int j=0; j<N; j++) {
@@ -41,3 +47,13 @@ int main(int argc, char** argv) {
   }
   MPI_Finalize();
 }
+
+// 並列化すると rank ごとに個別のメモリを持つので，
+// 他の rank のデータにアクセスできない
+
+// MPI_Gather を使ってそれを集めてくる
+// 計算については， rank0 のものだけで行っている
+
+// int MPI_Gather(const void* sendbuf, int sendcount, MPI_Datatype sendtype,
+//                void* recvbuf, int recvcount, MPI_Datatype recvtype,
+//                int recvrank, MPI_Comm comm)

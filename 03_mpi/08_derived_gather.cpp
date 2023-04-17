@@ -17,17 +17,23 @@ int main(int argc, char** argv) {
   int begin = rank * (N / size);
   int end = (rank + 1) * (N / size);
   srand48(rank);
+
+  // init
   for(int i=begin; i<end; i++) {
     body0[i].x = drand48();
     body0[i].y = drand48();
     body0[i].m = drand48();
     body0[i].fx = body0[i].fy = 0;
   }
+
+  // data_type
   Body body[N];
   MPI_Datatype MPI_BODY;
   MPI_Type_contiguous(5, MPI_DOUBLE, &MPI_BODY);
   MPI_Type_commit(&MPI_BODY);
   MPI_Allgather(&body0[begin], end-begin, MPI_BODY, body, end-begin, MPI_BODY, MPI_COMM_WORLD);
+  
+  // calc
   for(int i=begin; i<end; i++) {
     for(int j=0; j<N; j++) {
       if(i != j) {
@@ -39,14 +45,27 @@ int main(int argc, char** argv) {
       }
     }
   }
+
+  // data_type
   MPI_Datatype MPI_FORCE;
   int blocksize[1] = {2}, displacement[1] = {3};
   MPI_Type_indexed(1, blocksize, displacement, MPI_DOUBLE, &MPI_FORCE);
   MPI_Type_create_resized(MPI_FORCE, 0, 5*sizeof(double), &MPI_FORCE);
   MPI_Type_commit(&MPI_FORCE);
   MPI_Allgather(&body0[begin], end-begin, MPI_FORCE, body, end-begin, MPI_FORCE, MPI_COMM_WORLD);
+  
+  // out
   for(int i=0; i<N; i++) {
     if(rank==0) printf("%d %g %g\n",i,body[i].fx,body[i].fy);
   }
   MPI_Finalize();
 }
+
+// 派生データ型を使うと，これまで複数回実行していた allgather などを一気に行えるようになる
+
+// 利点:
+// コードが短くなる
+// MPIはデータを送る要素数に制限があるが，派生データ型を用いることで，一度に送れるようになる
+
+// blocksize や displacement を定義することで，最後の double だけを共有することができる
+// (最初の3つは共有する必要がないので)

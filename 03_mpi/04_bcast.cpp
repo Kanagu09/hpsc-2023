@@ -13,12 +13,15 @@ int main(int argc, char** argv) {
   int begin = rank * (N / size);
   int end = (rank + 1) * (N / size);
   srand48(rank);
+  // init
   for(int i=begin; i<end; i++) {
     x0[i] = drand48();
     y0[i] = drand48();
     m0[i] = drand48();
     fx0[i] = fy0[i] = 0;
   }
+
+  // gather, broadcast
   double x[N], y[N], m[N], fx[N], fy[N];
   MPI_Gather( &x0[begin], end-begin, MPI_DOUBLE,  x, end-begin, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   MPI_Gather( &y0[begin], end-begin, MPI_DOUBLE,  y, end-begin, MPI_DOUBLE, 0, MPI_COMM_WORLD);
@@ -31,6 +34,8 @@ int main(int argc, char** argv) {
   MPI_Bcast( m, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   MPI_Bcast(fx, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   MPI_Bcast(fy, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+  
+  // calc
   for(int i=0; i<N; i++) {
     for(int j=0; j<N; j++) {
       if(i != j) {
@@ -45,3 +50,6 @@ int main(int argc, char** argv) {
   }
   MPI_Finalize();
 }
+
+// rank0 で処理するだけでは遅いので，全体にデータを共有して処理を行うことを考える
+// 今回は同じデータを共有して全rankで同じ処理をするだけ
