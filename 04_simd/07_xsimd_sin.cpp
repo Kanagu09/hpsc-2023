@@ -11,3 +11,5 @@ int main() {
   for(int i=0; i<N; i++)
     printf("%g %g\n",a.get(i),b.get(i));
 }
+
+// 数学関数の並列化

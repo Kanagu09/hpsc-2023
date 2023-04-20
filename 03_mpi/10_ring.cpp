@@ -20,3 +20,7 @@ int main(int argc, char ** argv) {
          send[0],send[1],send[2],send[3],recv[0],recv[1],recv[2],recv[3]);
   MPI_Finalize();
 }
+
+// メモリ使用量を抑制
+// 必要な分だ毛を持つ
+// 輪状にデータを使うことで，各 rank がすべてのデータを持たなくても良い

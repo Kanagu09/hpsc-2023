@@ -15,6 +15,8 @@ int main(int argc, char** argv) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   Body ibody[N/size], jbody[N/size];
   srand48(rank);
+
+  // init
   for(int i=0; i<N/size; i++) {
     ibody[i].x = jbody[i].x = drand48();
     ibody[i].y = jbody[i].y = drand48();
@@ -51,3 +53,6 @@ int main(int argc, char** argv) {
   }
   MPI_Finalize();
 }
+
+// 分散メモリで実装
+// ring の扱いをするため， i と j を使った粒子の判定はできない

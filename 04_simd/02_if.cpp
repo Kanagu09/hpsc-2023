@@ -14,3 +14,5 @@ int main() {
   for(int i=0; i<N; i++)
     printf("%d %g\n",i,b[i]);
 }
+
+// masc 処理で if 文を処理している

@@ -11,3 +11,5 @@ int main() {
   for(int i=0; i<N; i++)
     printf("%d %3.1f %3.1f\n",i,a[i],b[i]);
 }
+
+// 並べ替えを一気にやる

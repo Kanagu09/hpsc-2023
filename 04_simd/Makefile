@@ -1,15 +1,17 @@
 00_vecadd: 00_vecadd.cpp
 	g++ 00_vecadd.cpp -fopt-info-vec-optimized -march=native -O3
 01_reduction: 01_reduction.cpp
-	g++ 01_reduction.cpp -fopt-info-vec-optimized -march=native -O3
+	g++ 01_reduction.cpp -fopt-info-vec-optimized -march=native -funsafe-math-optimizations -O3
+01_reduction_omp: 01_reduction.cpp
+	g++ 01_reduction.cpp -fopt-info-vec-optimized -march=native -funsafe-math-optimizations -O3 -fopenmp
 02_if: 02_if.cpp
-	g++ 02_if.cpp -fopt-info-vec-optimized -march=native -O3
+	g++ 02_if.cpp -fopt-info-vec-optimized -march=native -funsafe-math-optimizations -O3
 03_function: 03_function.cpp
 	g++ 03_function.cpp -fopt-info-vec-optimized -march=native -O3
 04_permute: 04_permute.cpp
 	g++ 04_permute.cpp -fopt-info-vec-optimized -march=native -O3
 05_sin: 05_sin.cpp
-	g++ 05_sin.cpp -fopt-info-vec-optimized -march=native -O3
+	g++ 05_sin.cpp -fopt-info-vec-optimized -march=native -funsafe-math-optimizations -O3
 06_xsimd_reduction: 06_xsimd_reduction.cpp
 	g++ 06_xsimd_reduction.cpp -march=native -Ixsimd/include
 07_xsimd_sin: 07_xsimd_sin.cpp
@@ -25,4 +27,4 @@
 12_intrinsic_sin: 12_intrinsic_sin.cpp
 	icc 12_intrinsic_sin.cpp -xHost
 13_nbody: 13_nbody.cpp
-	g++ 13_nbody.cpp -march=native -O3
+	g++ 13_nbody.cpp -fopt-info-vec-optimized -march=native -O3

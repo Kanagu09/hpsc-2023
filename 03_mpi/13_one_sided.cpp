@@ -24,3 +24,7 @@ int main(int argc, char ** argv) {
   MPI_Win_free(&win);
   MPI_Finalize();
 }
+
+// どこからでも参照可能な， window を用いる
+// Put で書き込みができて， fence でそれが保証される
+// データを共有の場所に書き込むイメージ

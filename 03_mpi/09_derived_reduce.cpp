@@ -8,7 +8,7 @@ struct Body {
 };
 
 void sum(Body *in, Body *out, int &size, MPI_Datatype*) {
-  for(int i=0; i<size; i++) { 
+  for(int i=0; i<size; i++) {
     out[i].fx += in[i].fx;
     out[i].fy += in[i].fy;
   }
@@ -24,17 +24,23 @@ int main(int argc, char** argv) {
   int begin = rank * (N / size);
   int end = (rank + 1) * (N / size);
   srand48(rank);
+
+  // init
   for(int i=begin; i<end; i++) {
     body0[i].x = drand48();
     body0[i].y = drand48();
     body0[i].m = drand48();
     body0[i].fx = body0[i].fy = 0;
   }
+
+  // data_type
   Body body[N];
   MPI_Datatype MPI_BODY;
   MPI_Type_contiguous(5, MPI_DOUBLE, &MPI_BODY);
   MPI_Type_commit(&MPI_BODY);
   MPI_Allgather(&body0[begin], end-begin, MPI_BODY, body, end-begin, MPI_BODY, MPI_COMM_WORLD);
+
+  // calc
   for(int i=0; i<N; i++) {
     for(int j=begin; j<end; j++) {
       if(i != j) {
@@ -46,6 +52,8 @@ int main(int argc, char** argv) {
       }
     }
   }
+
+  // data_type
   MPI_Datatype MPI_FORCE;
   int blocksize[1] = {2}, displacement[1] = {3};
   MPI_Type_indexed(1, blocksize, displacement, MPI_DOUBLE, &MPI_FORCE);
@@ -60,3 +68,5 @@ int main(int argc, char** argv) {
   MPI_Op_free(&MPI_FORCE_SUM);
   MPI_Finalize();
 }
+
+// 自分で関数を実装できる

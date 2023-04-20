@@ -11,3 +11,5 @@ int main() {
   for(int i=0; i<N; i++)
     printf("%g %g\n",x[i],y[i]);
 }
+
+// gcc 7 では 1 つめの for のみ並列化された

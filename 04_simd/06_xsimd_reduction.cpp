@@ -8,3 +8,5 @@ int main() {
   float b = xsimd::hadd(a);
   printf("%g\n",b);
 }
+
+// ベクトルを，1つの変数に入れて演算できる

@@ -15,11 +15,21 @@ int main(int argc, char ** argv) {
   }
   int recv_from = (rank + 1) % size;
   int send_to = (rank - 1 + size) % size;
+
+  // non-blocking
   MPI_Request request[2];
   MPI_Isend(send, 4, MPI_INT, send_to, 0, MPI_COMM_WORLD, &request[0]);
   MPI_Irecv(recv, 4, MPI_INT, recv_from, 0, MPI_COMM_WORLD, &request[1]);
+
+  // wait
   MPI_Waitall(2, request, MPI_STATUS_IGNORE);
   printf("rank%d: send=[%d %d %d %d], recv=[%d %d %d %d]\n",rank,
          send[0],send[1],send[2],send[3],recv[0],recv[1],recv[2],recv[3]);
   MPI_Finalize();
 }
+
+// 非ブロッキング型の通信の実装
+// ブロッキングしないので，デッドロックを回避できる
+
+// 通常関数は通信が終わるまで返ってこないが， &request により返ってくれるようになる
+// request を利用すると status を取得することができるので，通信終了を待つことができる
