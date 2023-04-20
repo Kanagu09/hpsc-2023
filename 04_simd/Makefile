@@ -17,13 +17,13 @@
 07_xsimd_sin: 07_xsimd_sin.cpp
 	g++ 07_xsimd_sin.cpp -march=native -Ixsimd/include
 08_intrinsic_vecadd: 08_intrinsic_vecadd.cpp
-	g++ 08_intrinsic_vecadd.cpp -march=native -O3
+	g++ 08_intrinsic_vecadd.cpp -fopt-info-vec-optimized -march=native -O3
 09_intrinsic_reduction: 09_intrinsic_reduction.cpp
-	g++ 09_intrinsic_reduction.cpp -march=native -O3
+	g++ 09_intrinsic_reduction.cpp -fopt-info-vec-optimized -march=native -O3
 10_intrinsic_if: 10_intrinsic_if.cpp
-	g++ 10_intrinsic_if.cpp -march=native -O3
+	g++ 10_intrinsic_if.cpp -fopt-info-vec-optimized -march=native -O3
 11_intrinsic_permute: 11_intrinsic_permute.cpp
-	g++ 11_intrinsic_permute.cpp -march=native -O3
+	g++ 11_intrinsic_permute.cpp -fopt-info-vec-optimized -march=native -O3
 12_intrinsic_sin: 12_intrinsic_sin.cpp
 	icc 12_intrinsic_sin.cpp -xHost
 13_nbody: 13_nbody.cpp
