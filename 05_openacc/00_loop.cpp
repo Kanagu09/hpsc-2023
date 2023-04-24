@@ -7,3 +7,6 @@ int main() {
     printf("%d: %d\n",__pgi_vectoridx(),i);
   }
 }
+
+// 02_openmp/02_loop.cpp と対応
+

@@ -10,3 +10,7 @@ int main() {
   }
   printf("%d %d\n",a,b[0]);
 }
+
+// a は 0，b は 6/7 などが出力される
+// スカラの a は private ，配列の b は shared
+

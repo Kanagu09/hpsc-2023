@@ -10,3 +10,10 @@ int main() {
            __pgi_vectoridx(),i);
   }
 }
+
+// gang, worker, vector の数を指定できる
+// block, warp, thread に該当
+
+// どの数で高い性能が出るかを探る
+// →チューニング
+

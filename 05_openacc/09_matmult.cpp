@@ -39,3 +39,7 @@ int main() {
   delete[] B;
   delete[] C;
 }
+
+// 細かい指定の仕方によって，性能が大きく変わる
+// この場合は， gang, vector の指定が効果が大きい
+

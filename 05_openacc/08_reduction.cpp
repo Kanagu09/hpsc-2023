@@ -8,3 +8,7 @@ int main() {
   }
   printf("%d\n",a);
 }
+
+// reduction をつけないと，並列化されない
+// (OpenMPは，挙動おかしくなりながらも並列化する)
+
