@@ -17,3 +17,9 @@ int main(void) {
     printf("%d %g\n",i,a[i]);
   cudaFree(a);
 }
+
+// (N+M-1)/M : N/Mの切り上げ
+// ( N/M は切り捨てなので )
+
+// thread で足りない分は， block を用いることで処理できる
+

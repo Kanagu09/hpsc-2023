@@ -15,3 +15,6 @@ int main(void) {
   cudaDeviceSynchronize();
   printf("%d\n",sum);
 }
+
+// atomicAdd は，大量の thread から同時に global memory にアクセスが飛ぶので，thread 数によってはかなり処理が遅くなる
+

@@ -15,3 +15,6 @@ int main(void) {
     printf("%d %g\n",i,a[i]);
   hipFree(a);
 }
+
+// hipify-perl で自動で生成できる
+

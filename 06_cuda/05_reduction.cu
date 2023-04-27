@@ -12,9 +12,12 @@ int main(void) {
   const int M = 64;
   int *a;
   cudaMallocManaged(&a, N*sizeof(int));
-  for (int i=0; i<N; i++) a[i] = 1;
+  for (int i=0; i<N; i++) a[i] = i;
   kernel<<<N/M,M>>>(sum, a);
   cudaDeviceSynchronize();
   printf("%d\n",sum);
   cudaFree(a);
 }
+
+// これも global memory に直接アクセスが飛ぶので処理が重い
+

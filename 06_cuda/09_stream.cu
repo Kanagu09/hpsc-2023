@@ -22,3 +22,6 @@ int main(void) {
     printf("%d %g\n",i,a[i]);
   cudaFree(a);
 }
+
+// 短いループのタスクで，並列化できるようなものを， stream として同時に流せる
+

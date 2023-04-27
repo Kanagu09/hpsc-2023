@@ -33,3 +33,6 @@ int main() {
   cudaFree(a);
   cudaFree(b);
 }
+
+// grid 単位で動機ができる
+

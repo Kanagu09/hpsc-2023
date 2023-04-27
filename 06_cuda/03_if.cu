@@ -18,3 +18,7 @@ int main(void) {
     printf("%d %g\n",i,a[i]);
   cudaFree(a);
 }
+
+// if 文は，真と偽両方を計算しておいて，後から mask で処理している
+// -> 計算資源としては節約できない
+

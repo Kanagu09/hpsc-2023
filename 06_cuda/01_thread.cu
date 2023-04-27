@@ -14,3 +14,11 @@ int main(void) {
     printf("%d %g\n",i,a[i]);
   cudaFree(a);
 }
+
+// share mamory
+
+// N: max 1024
+// block あたりの thread 数は1024が最大
+
+// block 数の最大は 2048
+
