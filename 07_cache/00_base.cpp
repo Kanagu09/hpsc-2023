@@ -31,3 +31,5 @@ int main() {
   double time = chrono::duration<double>(toc - tic).count();
   printf("N=%d: %lf s (%lf GFlops)\n",N,time,2.*N*N*N/time/1e9);
 }
+
+// A[i][k] * B[k][j] の部分で常にキャッスミス

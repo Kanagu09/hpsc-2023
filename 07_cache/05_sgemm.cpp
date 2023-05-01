@@ -29,3 +29,5 @@ int main() {
   double time = chrono::duration<double>(toc - tic).count();
   printf("N=%d: %lf s (%lf GFlops)\n",N,time,2.*N*N*N/time/1e9);
 }
+
+// sgemm を使う

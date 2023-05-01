@@ -137,3 +137,6 @@ int main(int argc, const char **argv) {
   cudaFree(C2);
   cublasDestroy(cublas_handle);
 }
+
+// 自分でデータが8個並んだ型を作る
+// 8個のデータを自分で用意して，それで global memory から load すると早くなる

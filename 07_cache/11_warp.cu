@@ -141,3 +141,6 @@ int main(int argc, const char **argv) {
   cudaFree(C2);
   cublasDestroy(cublas_handle);
 }
+
+// 8x8 に分けるものに加えて， 32x2 に分けるもの， 4x16 に分けるものを新たに追加
+// warp は32個単位なので

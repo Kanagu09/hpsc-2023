@@ -126,3 +126,7 @@ int main(int argc, const char **argv) {
   cudaFree(C2);
   cublasDestroy(cublas_handle);
 }
+
+// thread index を 8x8 に分ける
+// block_c を64回のループではなく，8x8の2重ループに変更
+// register に8個ずつ乗るので，空間的局在性が増す

@@ -31,3 +31,6 @@ int main() {
   double time = chrono::duration<double>(toc - tic).count();
   printf("N=%d: %lf s (%lf GFlops)\n",N,time,2.*N*N*N/time/1e9);
 }
+
+// 3つ目の for で，A[i][k] は同じ要素を連続して参照 (時間的局在性)
+// B と C は，2番目のindexが変わっていくので，連続で利用できる (空間的局在性)

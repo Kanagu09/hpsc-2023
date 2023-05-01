@@ -87,3 +87,5 @@ int main(int argc, char **argv) {
       err += fabs(C[i][j]);
   //printf("error: %lf\n",err/N/N);
 }
+
+// SIMDを用いて，8個単位でまとめて演算する

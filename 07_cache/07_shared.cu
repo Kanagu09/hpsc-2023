@@ -120,3 +120,5 @@ int main(int argc, const char **argv) {
   cudaFree(C2);
   cublasDestroy(cublas_handle);
 }
+
+// shared memory を利用することで， global memory に都度アクセスするのを避ける

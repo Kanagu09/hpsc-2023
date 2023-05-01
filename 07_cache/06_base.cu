@@ -112,3 +112,11 @@ int main(int argc, const char **argv) {
   cudaFree(C2);
   cublasDestroy(cublas_handle);
 }
+
+// GPU 化
+// 各 block が薄い灰色の部分を，各 thread が濃い灰色の部分を担当
+
+// for がたくさんある中で， block,thread を使って3つ分を並列化している
+
+// d_a, d_b (global memory address) を何度もロードしている
+// -> これが時間がかかってしまっている
