@@ -65,4 +65,5 @@ for n in range(nt):
     plt.quiver(X[::2, ::2], Y[::2, ::2], u[::2, ::2], v[::2, ::2])
     plt.pause(.01)
     plt.clf()
-plt.show()
+
+# 2次元 Navier-Stokes方程式

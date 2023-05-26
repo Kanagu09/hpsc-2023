@@ -19,3 +19,5 @@ for n in range(nt):
     plt.pause(.01)
     plt.clf()
 plt.show()
+
+# 1次元 移流拡散方程式

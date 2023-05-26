@@ -18,3 +18,5 @@ for n in range(nt):
     plt.pause(.01)
     plt.clf()
 plt.show()
+
+# 1次元 線形移流方程式
