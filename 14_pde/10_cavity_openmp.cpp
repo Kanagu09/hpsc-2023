@@ -3,7 +3,6 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
-#include <omp.h>
 
 constexpr int nx = 41;
 constexpr int ny = 41;
