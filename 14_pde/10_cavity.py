@@ -112,7 +112,7 @@ for n in range(nt):
     v[-1, :] = 0
     v[:, 0]  = 0
     v[:, -1] = 0
-    
+
     if debug_full:
         print_array2("u", u)
         print_array2("v", v)
