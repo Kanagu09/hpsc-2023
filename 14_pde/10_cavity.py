@@ -1,7 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-debug_full = True
+debug_full = False
+
+def print_value(name, value):
+    print(name, "{:.6g}".format(value))
 
 def print_array(name, array):
     print(name, end="")
@@ -31,15 +34,15 @@ rho = 1
 nu = .02
 
 if debug_full:
-    print("nx:", nx)
-    print("ny:", ny)
-    print("nt:", nt)
-    print("nit:", nit)
-    print("dx:", dx)
-    print("dy:", dy)
-    print("dt:", dt)
-    print("rho:", rho)
-    print("nu:", nu)
+    print_value("nx:", nx)
+    print_value("ny:", ny)
+    print_value("nt:", nt)
+    print_value("nit:", nit)
+    print_value("dx:", dx)
+    print_value("dy:", dy)
+    print_value("dt:", dt)
+    print_value("rho:", rho)
+    print_value("nu:", nu)
     print()
 
 x = np.linspace(0, 2, nx)

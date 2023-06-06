@@ -13,6 +13,7 @@
 #include <mpi.h>
 #include <string.h>
 #include <vector>
+#include "print.hpp"
 
 constexpr int nx = 40;
 constexpr int ny = 40;
@@ -24,34 +25,7 @@ constexpr double dt = 0.01;
 constexpr int rho = 1;
 constexpr double nu = 0.02;
 
-constexpr bool debug_full = true;
-
-class print {
-  public:
-    static void null() { std::cout << std::endl; }
-    static void value(std::string name, double value) {
-        std::cout << name << ": " << value << std::endl;
-    }
-    static void array(std::string name, std::vector<double> array) {
-        std::cout << name << ": [";
-        for(double value : array) {
-            std::cout << value << ",";
-        }
-        std::cout << "]" << std::endl;
-    }
-    static void array2(std::string name,
-                       std::vector<std::vector<double>> array2) {
-        std::cout << name << ": [" << std::endl;
-        for(std::vector<double> array1 : array2) {
-            std::cout << "[";
-            for(double value : array1) {
-                std::cout << value << ",";
-            }
-            std::cout << "]" << std::endl;
-        }
-        std::cout << "]" << std::endl;
-    }
-};
+constexpr bool debug_full = false;
 
 int main() {
     MPI_Init(NULL, NULL);
