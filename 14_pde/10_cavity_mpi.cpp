@@ -5,7 +5,7 @@
  * @date 2023-06-06
  *
  * @note module load gcc/12.2.0 intel-mpi/21.8.0
- * @note mpirun -np 4 ./a.out
+ * @note mpirun -np 2 ./a.out
  */
 
 #include <cmath>
@@ -14,8 +14,8 @@
 #include <string.h>
 #include <vector>
 
-constexpr int nx = 41;
-constexpr int ny = 41;
+constexpr int nx = 40;
+constexpr int ny = 40;
 constexpr int nt = 500;
 constexpr int nit = 50;
 constexpr double dx = (double)2 / (nx - 1);
@@ -86,10 +86,6 @@ int main() {
     }
     MPI_Allgather(&x0[begin], end - begin, MPI_DOUBLE, &x[0], end - begin,
                   MPI_DOUBLE, MPI_COMM_WORLD);
-    // fraction
-    for(int i = size * (nx / size); i < nx; i++) {
-        x[i] = dx * i;
-    }
 
     // initialize y
     std::vector<double> y0(ny, 0);
@@ -100,10 +96,6 @@ int main() {
     }
     MPI_Allgather(&y0[begin], end - begin, MPI_DOUBLE, &y[0], end - begin,
                   MPI_DOUBLE, MPI_COMM_WORLD);
-    // fraction
-    for(int i = size * (ny / size); i < ny; i++) {
-        y[i] = dy * i;
-    }
 
     if(debug_full && rank == 0) {
         print::array("x", x);
@@ -142,17 +134,6 @@ int main() {
             }
             MPI_Allgather(&bj0[begin], end - begin, MPI_DOUBLE, &b[j][1],
                           end - begin, MPI_DOUBLE, MPI_COMM_WORLD);
-            // fraction
-            for(int i = size * ((ny - 2) / size) + 1; i < (ny - 1); i++) {
-                double tmp1 = (u[j][i + 1] - u[j][i - 1]) / (2 * dx) +
-                              (v[j + 1][i] - v[j - 1][i]) / (2 * dy);
-                double tmp2 = (u[j][i + 1] - u[j][i - 1]) / (2 * dx);
-                double tmp3 = (u[j + 1][i] - u[j - 1][i]) / (2 * dy) *
-                              (v[j][i + 1] - v[j][i - 1]) / (2 * dx);
-                double tmp4 = (v[j + 1][i] - v[j - 1][i]) / (2 * dy);
-                b[j][i] = rho * (1 / dt * tmp1 - std::pow(tmp2, 2) - 2 * tmp3 -
-                                 std::pow(tmp4, 2));
-            }
         }
 
         if(debug_full && rank == 0) {
@@ -177,16 +158,6 @@ int main() {
                 }
                 MPI_Allgather(&pj0[begin], end - begin, MPI_DOUBLE, &p[j][1],
                               end - begin, MPI_DOUBLE, MPI_COMM_WORLD);
-                // fraction
-                for(int i = size * ((ny - 2) / size) + 1; i < (ny - 1); i++) {
-                    double tmp1 =
-                        std::pow(dy, 2) * (pn[j][i + 1] + pn[j][i - 1]);
-                    double tmp2 =
-                        std::pow(dx, 2) * (pn[j + 1][i] + pn[j - 1][i]);
-                    double tmp3 = b[j][i] * std::pow(dx, 2) * std::pow(dy, 2);
-                    double tmp4 = 2 * (std::pow(dx, 2) + std::pow(dy, 2));
-                    p[j][i] = (tmp1 + tmp2 - tmp3) / tmp4;
-                }
             }
 
             for(int j = 0; j < nx; j++) {
@@ -208,11 +179,6 @@ int main() {
             MPI_Allgather(&pnxm10[begin], end - begin, MPI_DOUBLE,
                           &p[nx - 1][0], end - begin, MPI_DOUBLE,
                           MPI_COMM_WORLD);
-            // fraction
-            for(int i = size * (ny / size); i < ny; i++) {
-                p[0][i] = p[1][i];
-                p[nx - 1][i] = 0;
-            }
         }
 
         if(debug_full && rank == 0) {
@@ -252,28 +218,6 @@ int main() {
                           end - begin, MPI_DOUBLE, MPI_COMM_WORLD);
             MPI_Allgather(&vj0[begin], end - begin, MPI_DOUBLE, &v[j][1],
                           end - begin, MPI_DOUBLE, MPI_COMM_WORLD);
-            // fraction
-            for(int i = size * ((ny - 2) / size) + 1; i < (ny - 1); i++) {
-                double tmp1 = un[j][i];
-                double tmp2 = un[j][i] * dt / dx * (un[j][i] - un[j][i - 1]);
-                double tmp3 = un[j][i] * dt / dy * (un[j][i] - un[j - 1][i]);
-                double tmp4 = dt / (2 * rho * dx) * (p[j][i + 1] - p[j][i - 1]);
-                double tmp5 = nu * dt / std::pow(dx, 2) *
-                              (un[j][i + 1] - 2 * un[j][i] + un[j][i - 1]);
-                double tmp6 = nu * dt / std::pow(dy, 2) *
-                              (un[j + 1][i] - 2 * un[j][i] + un[j - 1][i]);
-                u[j][i] = tmp1 - tmp2 - tmp3 - tmp4 + tmp5 + tmp6;
-
-                tmp1 = vn[j][i];
-                tmp2 = vn[j][i] * dt / dx * (vn[j][i] - vn[j][i - 1]);
-                tmp3 = vn[j][i] * dt / dy * (vn[j][i] - vn[j - 1][i]);
-                tmp4 = dt / (2 * rho * dx) * (p[j + 1][i] - p[j - 1][i]);
-                tmp5 = nu * dt / std::pow(dx, 2) *
-                       (vn[j][i + 1] - 2 * vn[j][i] + vn[j][i - 1]);
-                tmp6 = nu * dt / std::pow(dy, 2) *
-                       (vn[j + 1][i] - 2 * vn[j][i] + vn[j - 1][i]);
-                v[j][i] = tmp1 - tmp2 - tmp3 - tmp4 + tmp5 + tmp6;
-            }
         }
 
         for(int j = 0; j < nx; j++) {
@@ -304,13 +248,6 @@ int main() {
                       end - begin, MPI_DOUBLE, MPI_COMM_WORLD);
         MPI_Allgather(&vnxm10[begin], end - begin, MPI_DOUBLE, &v[nx - 1][0],
                       end - begin, MPI_DOUBLE, MPI_COMM_WORLD);
-        // fraction
-        for(int i = size * (ny / size); i < ny; i++) {
-            u[0][i] = 0;
-            u[nx - 1][i] = 1;
-            v[0][i] = 0;
-            v[nx - 1][i] = 0;
-        }
 
         if(debug_full && rank == 0) {
             print::array2("u", u);
