@@ -1,4 +1,12 @@
-// parallelizate in OpenMP
+/**
+ * @file 10_cavity_openmp.cpp
+ * @brief parallelizate in OpenMP
+ * @author Masaki Otsubo
+ * @date 2023-06-01
+ *
+ * @note module load gcc/12.2.0
+ */
+
 #include <cmath>
 #include <iostream>
 #include <string.h>

@@ -1,4 +1,12 @@
-// 10_cavity.py in C++
+/**
+ * @file 10_cavity.cpp
+ * @brief 10_cavity.py in C++
+ * @author Masaki Otsubo
+ * @date 2023-05-31
+ *
+ * @note module load gcc/12.2.0
+ */
+
 #include <cmath>
 #include <iostream>
 #include <string.h>
